@@ -2,38 +2,290 @@
 session_start();
 require_once '../db.php';
 
+if (isset($_SESSION['user'])) {
+    header("Location: ../index.php");
+    exit();
+}
+
+$error = "";
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user = $_POST['username'];
-    $pass = $_POST['password'];
 
-    $query = mysqli_query($conn, "SELECT * FROM users WHERE username='$user' AND password='$pass'");
-    $data = mysqli_fetch_assoc($query);
+    $user_input = mysqli_real_escape_string(
+        $conn,
+        $_POST['username']
+    );
 
-    if ($data) {
-        $_SESSION['user'] = $data['username'];
+    $pass_input = mysqli_real_escape_string(
+        $conn,
+        $_POST['password']
+    );
 
-        header("Location: ../index.php");
-        exit();
+    $query = mysqli_query($conn, "
+        SELECT * FROM users
+        WHERE username='$user_input'
+    ");
+
+    if ($query && mysqli_num_rows($query) > 0) {
+
+        $data = mysqli_fetch_assoc($query);
+
+        if ($pass_input === $data['password']) {
+
+            $_SESSION['user'] = $data['username'];
+
+            header("Location: ../index.php");
+            exit();
+
+        } else {
+
+            $error = "Password salah!";
+        }
+
     } else {
-        $error = "Login gagal";
+
+        $error = "Username tidak ditemukan!";
     }
 }
 ?>
 
 <?php include '../layout/header.php'; ?>
-<h5>Login</h5>
-<?php if (isset($error)) : ?>
-    <div class="alert alert-danger"><?= $error ?></div>
+
+<div class="w-full min-h-screen bg-white flex flex-col relative overflow-hidden font-sans">
+
+    <div
+        id="login-form-section"
+        class="fixed inset-x-0 top-0 h-[80vh]
+        bg-gradient-to-b from-[#ed4a4a] to-[#f58231]
+        transform -translate-y-[110%]
+        transition-transform duration-500 ease-in-out
+        z-50 rounded-b-[30px]
+        p-8 flex flex-col shadow-xl">
+
+        <div class="w-full max-w-sm mx-auto flex flex-col h-full">
+
+            <div class="mb-8">
+
+                <h2 class="text-white text-5xl font-normal">
+                    Sign In
+                </h2>
+
+                <div class="w-24 h-[1px] bg-white mt-1"></div>
+            </div>
+
+            <?php if ($error): ?>
+                <p class="text-white text-sm italic text-center mb-5">
+                    <?= htmlspecialchars($error) ?>
+                </p>
+            <?php endif; ?>
+
+            <form method="POST" class="space-y-5">
+
+                <div>
+
+                    <label class="block text-white text-xl mb-2 font-light">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Masukkan username"
+                        required
+                        class="w-full bg-[#f8f8f8]
+                        rounded-full py-3 px-6
+                        focus:outline-none
+                        text-gray-700
+                        shadow-inner border-none">
+                </div>
+
+                <!-- PASSWORD -->
+                <div>
+
+                    <label class="block text-white text-xl mb-2 font-light">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="•••••••"
+                        required
+                        class="w-full bg-[#f8f8f8]
+                        rounded-full py-3 px-6
+                        focus:outline-none
+                        text-gray-700
+                        shadow-inner border-none">
+                </div>
+
+                <div class="flex justify-between items-center text-white text-sm">
+
+                    <label class="flex items-center gap-2 cursor-pointer">
+
+                        <input
+                            type="checkbox"
+                            class="accent-white">
+
+                        Ingat Saya
+                    </label>
+
+                    <a
+                        href="#"
+                        class="underline underline-offset-4 decoration-white/50">
+
+                        Lupa Sandi?
+                    </a>
+                </div>
+
+
+                <div class="pt-4 flex justify-center">
+
+                    <button
+                        type="submit"
+                        class="border-2 border-white
+                        bg-white/10 text-white
+                        font-medium py-2 px-14
+                        rounded-2xl text-2xl
+                        hover:bg-white/20
+                        transition-all">
+
+                        Login
+                    </button>
+                </div>
+            </form>
+
+            <p class="text-white text-center text-xs mt-10">
+
+                Belum memiliki akun?
+
+                <span class="underline cursor-pointer">
+                    Sign Up
+                </span>
+            </p>
+
+            <div class="absolute -bottom-6 left-1/2 -translate-x-1/2">
+
+                <button
+                    onclick="toggleLogin()"
+                    class="focus:outline-none">
+
+                    <img
+                        src="../icons/arrow.svg"
+                        class="w-10 h-10  -rotate-90"
+                        alt="Close">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-col items-center w-full min-h-screen">
+
+        <div
+            class="w-full
+            bg-gradient-to-r from-[#ed4a4a] to-[#f58231]
+            text-white pt-16 pb-20
+            rounded-b-[40px]
+            shadow-lg
+            flex flex-col items-center relative">
+
+            <h1 class="text-5xl font-normal tracking-tight">
+                Sign In
+            </h1>
+
+            <button
+                onclick="toggleLogin()"
+                class="absolute -bottom-6 focus:outline-none">
+
+                <img
+                    src="../icons/arrow.svg"
+                    class="w-10 h-10 rotate-90"
+                    alt="Open">
+            </button>
+        </div>
+        <div class="flex flex-col items-center justify-center flex-grow py-10">
+
+            <h2
+                class="text-[#ed4a4a]
+                text-4xl font-light
+                mb-8 tracking-widest">
+
+                Welcome
+            </h2>
+
+            <div
+    class="w-48 h-48 rounded-full
+    bg-black flex items-center
+    justify-center overflow-hidden
+    shadow-2xl p-4">
+
+    <img
+        src="../icons/logo.png"
+        alt="Logo"
+        class="w-full h-full">
+</div>
+
+            <div class="mt-10 text-center">
+
+                <h3
+                    class="text-[#ed4a4a]
+                    text-4xl font-bold tracking-tight">
+
+                    Seblak
+                </h3>
+
+                <h3
+                    class="text-[#ed4a4a]
+                    text-4xl font-bold tracking-tight uppercase">
+
+                    Mama Rizki
+                </h3>
+            </div>
+
+            <a
+                href="../index.php"
+                class="mt-10 text-orange-500
+                font-medium underline underline-offset-8">
+
+                Jadi Pengunjung
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleLogin() {
+
+    const panel = document.getElementById(
+        'login-form-section'
+    );
+
+    if (
+        panel.classList.contains('-translate-y-[110%]')
+    ) {
+
+        panel.classList.remove(
+            '-translate-y-[110%]'
+        );
+
+        panel.classList.add(
+            'translate-y-0'
+        );
+
+    } else {
+
+        panel.classList.remove(
+            'translate-y-0'
+        );
+
+        panel.classList.add(
+            '-translate-y-[110%]'
+        );
+    }
+}
+
+<?php if ($error): ?>
+toggleLogin();
 <?php endif; ?>
-<form method="POST">
-    <div class="mb-3">  
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username" required>
-    </div>
-    <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
+</script>
+
 <?php include '../layout/footer.php'; ?>
