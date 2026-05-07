@@ -1,0 +1,50 @@
+.icon-base {
+    display: inline-block;
+    background-color: currentColor;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-position: center;
+}
+
+.icon-profile { 
+    mask-image: url('icons/profile.svg'); 
+    width: 48px; 
+    height: 48px; 
+}
+
+.icon-nav { 
+    mask-image: url('icons/navbtn.svg');  
+    width: 32px; 
+    height: 32px; 
+}
+
+.icon-search { 
+    mask-image: url('icons/search.svg');  
+    width: 14px; 
+    height: 14px; 
+}
+
+.icon-fav { 
+    mask-image: url('icons/favorite.svg'); 
+    width: 20px; 
+    height: 20px; 
+}
+
+.icon-add { 
+    mask-image: url('icons/addbtn.svg');   
+    width: 20px; 
+    height: 20px; 
+}
+
+.icon-filter { 
+    mask-image: url('icons/filter.svg');   
+    width: 24px; 
+    height: 24px; 
+}
+
+.truncate-2-lines {
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
