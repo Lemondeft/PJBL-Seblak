@@ -14,8 +14,8 @@
 
 
 .icon-profile {
-    mask-image: url('icons/profile.svg');
-    -webkit-mask-image: url('icons/profile.svg');
+    mask-image: url('../icons/profile.svg');
+    -webkit-mask-image: url('../icons/profile.svg');
 
     width: 48px;
     height: 48px;
@@ -23,16 +23,16 @@
 
 
 .icon-nav {
-    mask-image: url('icons/navbtn.svg');
-    -webkit-mask-image: url('icons/navbtn.svg');
+    mask-image: url('../icons/navbtn.svg');
+    -webkit-mask-image: url('../icons/navbtn.svg');
 
     width: 32px;
     height: 32px;
 }
 
 .icon-search {
-    mask-image: url('icons/search.svg');
-    -webkit-mask-image: url('icons/search.svg');
+    mask-image: url('../icons/search.svg');
+    -webkit-mask-image: url('../icons/search.svg');
 
     width: 14px;
     height: 14px;
@@ -40,80 +40,80 @@
 
 
 .icon-fav {
-    mask-image: url('icons/favorite.svg');
-    -webkit-mask-image: url('icons/favorite.svg');
+    mask-image: url('../icons/favorite.svg');
+    -webkit-mask-image: url('../icons/favorite.svg');
 
     width: 20px;
     height: 20px;
 }
 
 .icon-add {
-    mask-image: url('icons/addbtn.svg');
-    -webkit-mask-image: url('icons/addbtn.svg');
+    mask-image: url('../icons/addbtn.svg');
+    -webkit-mask-image: url('../icons/addbtn.svg');
 
     width: 20px;
     height: 20px;
 }
 
 .icon-filter {
-    mask-image: url('icons/filter.svg');
-    -webkit-mask-image: url('icons/filter.svg');
+    mask-image: url('../icons/filter.svg');
+    -webkit-mask-image: url('../icons/filter.svg');
 
     width: 24px;
     height: 24px;
 }
 
 .icon-arrow {
-    mask-image: url('icons/arrow.svg');
-    -webkit-mask-image: url('icons/arrow.svg');
+    mask-image: url('../icons/arrow.svg');
+    -webkit-mask-image: url('../icons/arrow.svg');
 
     width: 24px;
     height: 24px;
 }
 
 .icon-history {
-    mask-image: url('icons/history.svg');
-    -webkit-mask-image: url('icons/history.svg');
+    mask-image: url('../icons/history.svg');
+    -webkit-mask-image: url('../icons/history.svg');
 
     width: 24px;
     height: 24px;
 }
 
 .icon-home {
-    mask-image: url('icons/home.svg');
-    -webkit-mask-image: url('icons/home.svg');
+    mask-image: url('../icons/home.svg');
+    -webkit-mask-image: url('../icons/home.svg');
 
     width: 24px;
     height: 24px;
 }
 
 .icon-logout {
-    mask-image: url('icons/log-out_active.svg');
-    -webkit-mask-image: url('icons/log-out_active.svg');
+    mask-image: url('../icons/log-out_active.svg');
+    -webkit-mask-image: url('../icons/log-out_active.svg');
 
     width: 24px;
     height: 24px;
 }
 
 .icon-settings {
-    mask-image: url('icons/settings_active.svg');
-    -webkit-mask-image: url('icons/settings_active.svg');
+    mask-image: url('../icons/settings_active.svg');
+    -webkit-mask-image: url('../icons/settings_active.svg');
 
     width: 24px;
     height: 24px;
 }
 
 .icon-shop {
-    mask-image: url('icons/shop.svg');
-    -webkit-mask-image: url('icons/shop.svg');
+    mask-image: url('../icons/shop.svg');
+    -webkit-mask-image: url('../icons/shop.svg');
 
     width: 24px;
     height: 24px;
 }
 
 .icon-wallet {
-    mask-image: url('icons/wallet.svg');
-    -webkit-mask-image: url('icons/wallet.svg');
+    mask-image: url('../icons/wallet.svg');
+    -webkit-mask-image: url('../icons/wallet.svg');
 
     width: 24px;
     height: 24px;

@@ -1,6 +1,8 @@
 <?php
 require_once 'auth/check.php';
-require_once 'db.php';
+require_once 'config/db.php';
+
+$assetBase = 'assets';
 
 $search = $_GET['search'] ?? '';
 $query = "SELECT * FROM seblak_paket";
@@ -12,8 +14,6 @@ $result = mysqli_query($conn, $query);
 ?>
 
 <?php include 'layout/header.php'; ?>
-
-<link rel="stylesheet" href="style.css">
 
 <div class="w-full min-h-screen bg-[#f8f9fa] pb-10 font-sans">
 

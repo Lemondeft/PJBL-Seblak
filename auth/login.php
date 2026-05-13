@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../db.php';
+require_once '../config/db.php';
 
 if (isset($_SESSION['user'])) {
     header("Location: ../index.php");
@@ -49,7 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<?php include '../layout/header.php'; ?>
+<?php
+$assetBase = '../assets';
+include '../layout/header.php';
+?>
 
 <div class="w-full min-h-screen bg-white flex flex-col relative overflow-hidden font-sans">
 
@@ -170,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     class="focus:outline-none">
 
                     <img
-                        src="../icons/arrow.svg"
+                        src="<?= $assetBase ?>/icons/arrow.svg"
                         class="w-10 h-10  -rotate-90"
                         alt="Close">
                 </button>
@@ -197,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 class="absolute -bottom-6 focus:outline-none">
 
                 <img
-                    src="../icons/arrow.svg"
+                    src="<?= $assetBase ?>/icons/arrow.svg"
                     class="w-10 h-10 rotate-90"
                     alt="Open">
             </button>
@@ -219,7 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     shadow-2xl p-4">
 
     <img
-        src="../icons/logo.png"
+        src="<?= $assetBase ?>/icons/logo.png"
         alt="Logo"
         class="w-full h-full">
 </div>

@@ -1,19 +1,14 @@
 <?php
 require_once '../auth/check.php';
-require_once '../db.php';
+require_once '../core/produk.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nama = $_POST['nama'];
-    $harga = $_POST['harga'];
-
-    mysqli_query($conn, "INSERT INTO produk (nama, harga) VALUES ('$nama', $harga)");
-
-    header("Location: index.php");
-    exit;
-}
+handleProdukCreate('index.php');
 ?>
 
-<?php include '../layout/header.php'; ?>
+<?php
+$assetBase = '../assets';
+include '../layout/header.php';
+?>
 <h5>Tambah Produk</h5>
 
 <form method="POST">

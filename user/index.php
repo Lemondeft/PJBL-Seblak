@@ -3,7 +3,10 @@ session_start();
 require_once '../auth/check.php';
 ?>
 
-<?php include '../layout/header.php'; ?>
+<?php
+$assetBase = '../assets';
+include '../layout/header.php';
+?>
 
 <div class="min-h-screen bg-gradient-to-b from-[#ed4a4a] to-[#f58231] text-white flex flex-col">
 
@@ -18,7 +21,7 @@ require_once '../auth/check.php';
             flex items-center justify-center">
 
             <img
-                src="../icons/arrow.svg"
+                src="<?= $assetBase ?>/icons/arrow.svg"
                 class="w-6 h-6"
                 alt="Back">
         </a>
@@ -31,7 +34,7 @@ require_once '../auth/check.php';
     flex items-center justify-center">
 
     <img
-        src="../icons/profile.svg"
+        src="<?= $assetBase ?>/icons/profile.svg"
         class="w-full h-full"
         alt="Profile">
 </div>
@@ -73,7 +76,7 @@ require_once '../auth/check.php';
                 <div class="flex items-center gap-4">
 
                     <img
-                        src="../icons/settings_active.svg"
+                        src="<?= $assetBase ?>/icons/settings_active.svg"
                         class="w-8 h-8"
                         alt="Settings">
 
@@ -83,7 +86,7 @@ require_once '../auth/check.php';
                 </div>
 
                 <img
-                    src="../icons/arrow.svg"
+                    src="<?= $assetBase ?>/icons/arrow.svg"
                     class="w-6 h-6 rotate-180"
                     alt="Arrow">
             </a>
@@ -99,7 +102,7 @@ require_once '../auth/check.php';
                 <div class="flex items-center gap-4">
 
                     <img
-                        src="../icons/log-out_active.svg"
+                        src="<?= $assetBase ?>/icons/log-out_active.svg"
                         class="w-8 h-8"
                         alt="Logout">
 
@@ -109,7 +112,7 @@ require_once '../auth/check.php';
                 </div>
 
                 <img
-                    src="../icons/arrow.svg"
+                    src="<?= $assetBase ?>/icons/arrow.svg"
                     class="w-6 h-6 rotate-180"
                     alt="Arrow">
             </a>

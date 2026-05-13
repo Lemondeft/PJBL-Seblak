@@ -11,7 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<?php include '../layout/header.php'; ?>
+<?php
+$assetBase = '../assets';
+include '../layout/header.php';
+?>
 
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#ed4a4a] to-[#f58231] p-6">
 
