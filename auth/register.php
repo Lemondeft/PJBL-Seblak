@@ -10,35 +10,36 @@ if (isset($_SESSION['user'])) {
 $error = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_input = trim($_POST['username'] ?? '');
-    $pass_input = $_POST['password'] ?? '';
+    $username = trim($_POST['username'] ?? '');
+    $password = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
 
-    if ($user_input === '' || $pass_input === '') {
-        $error = "Username dan password wajib diisi!";
-    } elseif (strlen($pass_input) < 8) {
+    if ($username === '' || $password === '' || $confirm_password === '') {
+        $error = "Semua field wajib diisi!";
+    } elseif (strlen($password) < 8) {
         $error = "Password minimal 8 karakter!";
+    } elseif ($password !== $confirm_password) {
+        $error = "Konfirmasi password tidak sama!";
     } else {
-        $user_escaped = mysqli_real_escape_string($conn, $user_input);
-        $query = mysqli_query($conn, "
-            SELECT * FROM users
-            WHERE username='$user_escaped'
-            LIMIT 1
-        ");
+        $username_escaped = mysqli_real_escape_string($conn, $username);
+        $check = mysqli_query($conn, "SELECT 1 FROM users WHERE username='$username_escaped' LIMIT 1");
 
-        if ($query && mysqli_num_rows($query) > 0) {
-            $data = mysqli_fetch_assoc($query);
-            $stored_password = $data['password'] ?? '';
+        if ($check && mysqli_num_rows($check) > 0) {
+            $error = "Username sudah digunakan!";
+        } else {
+            $password_hash = password_hash($password, PASSWORD_DEFAULT);
+            $insert = mysqli_query(
+                $conn,
+                "INSERT INTO users (username, password) VALUES ('$username_escaped', '$password_hash')"
+            );
 
-            if (password_verify($pass_input, $stored_password) || hash_equals($stored_password, $pass_input)) {
-                $_SESSION['user'] = $data['username'];
-
+            if ($insert) {
+                $_SESSION['user'] = $username;
                 header("Location: ../index.php");
                 exit();
-            } else {
-                $error = "Password salah!";
             }
-        } else {
-            $error = "Username tidak ditemukan!";
+
+            $error = "Gagal membuat akun. Coba lagi.";
         }
     }
 }
@@ -52,8 +53,8 @@ include '../layout/header.php';
 <div class="w-full min-h-screen bg-white flex flex-col relative overflow-hidden font-sans">
 
     <div
-        id="login-form-section"
-        class="fixed inset-x-0 top-0 h-[80vh]
+        id="register-form-section"
+        class="fixed inset-x-0 top-0 h-[85vh]
         bg-gradient-to-b from-[#ed4a4a] to-[#f58231]
         transform -translate-y-[110%]
         transition-transform duration-500 ease-in-out
@@ -65,7 +66,7 @@ include '../layout/header.php';
             <div class="mb-8">
 
                 <h2 class="text-white text-5xl font-normal">
-                    Sign In
+                    Sign Up
                 </h2>
 
                 <div class="w-24 h-[1px] bg-white mt-1"></div>
@@ -97,7 +98,6 @@ include '../layout/header.php';
                         shadow-inner border-none">
                 </div>
 
-                <!-- PASSWORD -->
                 <div>
 
                     <label class="block text-white text-xl mb-2 font-light">
@@ -117,25 +117,24 @@ include '../layout/header.php';
                         shadow-inner border-none">
                 </div>
 
-                <div class="flex justify-between items-center text-white text-sm">
+                <div>
 
-                    <label class="flex items-center gap-2 cursor-pointer">
-
-                        <input
-                            type="checkbox"
-                            class="accent-white">
-
-                        Ingat Saya
+                    <label class="block text-white text-xl mb-2 font-light">
+                        Konfirmasi Password
                     </label>
 
-                    <a
-                        href="#"
-                        class="underline underline-offset-4 decoration-white/50">
-
-                        Lupa Sandi?
-                    </a>
+                    <input
+                        type="password"
+                        name="confirm_password"
+                        placeholder="•••••••"
+                        required
+                        minlength="8"
+                        class="w-full bg-[#f8f8f8]
+                        rounded-full py-3 px-6
+                        focus:outline-none
+                        text-gray-700
+                        shadow-inner border-none">
                 </div>
-
 
                 <div class="pt-4 flex justify-center">
 
@@ -148,27 +147,28 @@ include '../layout/header.php';
                         hover:bg-white/20
                         transition-all">
 
-                        Login
+                        Daftar
                     </button>
                 </div>
             </form>
 
             <p class="text-white text-center text-xs mt-10">
 
-                Belum memiliki akun?
+                Sudah punya akun?
 
                 <a
-                    href="register.php"
-                    class="underline cursor-pointer text-white">
+                    href="login.php"
+                    class="underline cursor-pointer text-orange-200">
 
-                    Sign Up
+                    Login
                 </a>
             </p>
 
             <div class="absolute -bottom-6 left-1/2 -translate-x-1/2">
 
                 <button
-                    onclick="toggleLogin()">
+                    onclick="toggleRegister()"
+                    class="focus:outline-none">
 
                     <img
                         src="<?= $assetBase ?>/icons/arrow.svg"
@@ -190,12 +190,12 @@ include '../layout/header.php';
             flex flex-col items-center relative">
 
             <h1 class="text-5xl font-normal tracking-tight">
-                Sign In
+                Sign Up
             </h1>
 
             <button
-                onclick="toggleLogin()"
-                class="absolute -bottom-6">
+                onclick="toggleRegister()"
+                class="absolute -bottom-6 focus:outline-none">
 
                 <img
                     src="<?= $assetBase ?>/icons/arrow.svg"
@@ -214,16 +214,16 @@ include '../layout/header.php';
             </h2>
 
             <div
-    class="w-48 h-48 rounded-full
-    bg-black flex items-center
-    justify-center overflow-hidden
-    shadow-2xl p-4">
+                class="w-48 h-48 rounded-full
+                bg-black flex items-center
+                justify-center overflow-hidden
+                shadow-2xl p-4">
 
-    <img
-        src="<?= $assetBase ?>/icons/logo.png"
-        alt="Logo"
-        class="w-full h-full">
-</div>
+                <img
+                    src="<?= $assetBase ?>/icons/logo.png"
+                    alt="Logo"
+                    class="w-full h-full">
+            </div>
 
             <div class="mt-10 text-center">
 
@@ -254,10 +254,10 @@ include '../layout/header.php';
 </div>
 
 <script>
-function toggleLogin() {
+function toggleRegister() {
 
     const panel = document.getElementById(
-        'login-form-section'
+        'register-form-section'
     );
 
     if (
@@ -285,7 +285,7 @@ function toggleLogin() {
 }
 
 <?php if ($error): ?>
-toggleLogin();
+toggleRegister();
 <?php endif; ?>
 </script>
 
