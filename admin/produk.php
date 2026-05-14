@@ -2,6 +2,7 @@
 require_once '../auth/check.php';
 
 $assetBase = '../assets';
+$baseUrl = '..';
 include '../layout/header.php';
 ?>
 

@@ -2,6 +2,8 @@
 require_once 'auth/check.php';
 
 $assetBase = 'assets';
+$baseUrl = '.';
+$activeNav = 'histori';
 include 'layout/header.php';
 ?>
 

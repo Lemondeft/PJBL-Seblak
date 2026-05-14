@@ -3,6 +3,8 @@ require_once 'auth/check.php';
 require_once 'config/db.php';
 
 $assetBase = 'assets';
+$baseUrl = '.';
+$activeNav = 'home';
 
 $search = $_GET['search'] ?? '';
 $query = "SELECT * FROM seblak_paket";
@@ -15,18 +17,7 @@ $result = mysqli_query($conn, $query);
 
 <?php include 'layout/header.php'; ?>
 
-<div class="w-full min-h-screen bg-[#f8f9fa] pb-10 font-sans">
 
-  <div class="bg-gradient-to-r from-[#ed4a4a] to-[#f58231] text-white p-4 sm:px-6 lg:px-10 flex justify-between items-center shadow-sm min-h-[80px]">
-    <a href="user/index.php"
-   class="flex items-center justify-center hover:scale-105 transition-transform">
-
-  <span class="icon-base icon-profile bg-[#F8F8F8]"></span>
-  </a>
-    <button class="p-2 hover:scale-110 transition-transform">
-      <span class="icon-base icon-nav bg-[#F8F8F8]"></span>
-    </button>
-  </div>
 
   <div class="p-5 sm:p-6 lg:px-10">
 
@@ -107,6 +98,5 @@ $result = mysqli_query($conn, $query);
     </div>
 
   </div>
-</div>
 
 <?php include 'layout/footer.php'; ?>

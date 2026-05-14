@@ -7,6 +7,7 @@ handleProdukCreate('index.php');
 
 <?php
 $assetBase = '../assets';
+$baseUrl = '..';
 include '../layout/header.php';
 ?>
 <h5>Tambah Produk</h5>

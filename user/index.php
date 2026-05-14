@@ -5,7 +5,7 @@ require_once '../auth/check.php';
 
 <?php
 $assetBase = '../assets';
-include '../layout/header.php';
+include '../layout/head.php';
 ?>
 
 <div class="min-h-screen bg-gradient-to-b from-[#ed4a4a] to-[#f58231] text-white flex flex-col">

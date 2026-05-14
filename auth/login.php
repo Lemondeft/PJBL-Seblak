@@ -46,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <?php
 $assetBase = '../assets';
+$baseUrl = '..';
 include '../layout/header.php';
 ?>
 
