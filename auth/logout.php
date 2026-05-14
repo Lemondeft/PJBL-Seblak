@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php
 $assetBase = '../assets';
 $baseUrl = '..';
-include '../layout/header.php';
+include '../layout/head.php';
 ?>
 
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#ed4a4a] to-[#f58231] p-6">
@@ -26,18 +26,18 @@ include '../layout/header.php';
         </h1>
 
         <p class="text-gray-600 mb-8">
-            Are you sure you want to log out?
+            Apakah Anda yakin ingin logout dari akun Anda?
         </p>
 
         <form method="POST" class="flex gap-4 justify-center">
 
             <a
-                href="../index.php"
+                href="../user/index.php"
                 class="px-6 py-3 rounded-2xl
                 bg-gray-200 text-gray-700
                 hover:bg-gray-300 transition-all">
 
-                Cancel
+                Batal
             </a>
 
             <button

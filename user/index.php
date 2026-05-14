@@ -118,6 +118,12 @@ include '../layout/head.php';
             </a>
         </div>
     </div>
+    <div class="mt-8 flex justify-center p-4">
+    <a href="delete_acc.php"
+       class="bg-red-600 border border-white/70 rounded-2xl h-12 flex items-center justify-center text-white font-semibold hover:bg-red-500 transition-colors px-6">
+        Hapus Akun
+    </a>
+</div>
 </div>
 
 <?php include '../layout/footer.php'; ?>

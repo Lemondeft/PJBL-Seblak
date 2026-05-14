@@ -40,7 +40,7 @@ if (!function_exists('navIconClass')) {
 <div x-data="{ open: false }">
   <div class="bg-gradient-to-r from-[#ed4a4a] to-[#f58231] text-white p-4 sm:px-6 lg:px-10 flex justify-between items-center shadow-sm min-h-[80px] relative z-40">
     <a href="<?= $baseUrl ?>/user/index.php" class="flex items-center justify-center hover:scale-105 transition-transform">
-      <img src="<?= $assetBase ?>/icons/profile.svg" class="w-8 h-8 icon-white" alt="Profile">
+      <img src="<?= $assetBase ?>/icons/profile.svg" class="w-10 h-10 icon-white" alt="Profile">
     </a>
     <button @click="open = !open" class="p-2 hover:scale-110 transition-transform focus:outline-none">
       <img src="<?= $assetBase ?>/icons/navbtn.svg" class="w-8 h-8 icon-white" alt="Menu">
