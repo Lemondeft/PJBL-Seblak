@@ -46,7 +46,7 @@ include '../layout/head.php';
                     <?= htmlspecialchars($_SESSION['user']) ?>
                 </h1>
 
-                <span class="text-sm opacity-80">
+                <span class="text-xl opacity-80 hover:opacity-100 transition-opacity cursor-pointer">
                     ✎
                 </span>
             </div>
