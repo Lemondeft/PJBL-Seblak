@@ -1,0 +1,14 @@
+<?php
+require_once 'auth/check.php';
+
+$assetBase = 'assets';
+$baseUrl = '.';
+$activeNav = 'favorit';
+include 'layout/header.php';
+?>
+
+<div class="min-h-screen bg-[#f8f9fa] p-6 font-sans">
+    <h1 class="text-2xl font-semibold text-gray-800">Favorit</h1>
+</div>
+
+<?php include 'layout/footer.php'; ?>

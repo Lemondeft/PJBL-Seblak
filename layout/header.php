@@ -2,6 +2,7 @@
 $assetBase = $assetBase ?? 'assets';
 $baseUrl = $baseUrl ?? '.';
 $activeNav = $activeNav ?? '';
+$isAdmin = isset($_SESSION['user']) && $_SESSION['user'] === 'admin';
 
 if (!function_exists('navTextClass')) {
   function navTextClass(string $key, string $activeNav): string {
@@ -12,6 +13,12 @@ if (!function_exists('navTextClass')) {
 if (!function_exists('navIconClass')) {
   function navIconClass(string $key, string $activeNav): string {
     return $activeNav === $key ? 'icon-white' : 'icon-dark';
+  }
+}
+
+if (!function_exists('navItemClass')) {
+  function navItemClass(string $key, string $activeNav): string {
+    return $activeNav === $key ? 'bg-white/15 ring-1 ring-white/30' : '';
   }
 }
 ?>
@@ -64,26 +71,40 @@ if (!function_exists('navIconClass')) {
       </div>
 
       <nav class="flex flex-col gap-8">
-        <a href="<?= $baseUrl ?>/index.php" class="flex flex-col items-center group">
+        <a href="<?= $baseUrl ?>/index.php" class="flex flex-col items-center group rounded-2xl px-3 py-2 transition-colors <?= navItemClass('home', $activeNav) ?>">
           <img src="<?= $assetBase ?>/icons/home.svg" class="w-7 h-7 mb-1 <?= navIconClass('home', $activeNav) ?> group-hover:scale-110 transition-transform">
           <span class="<?= navTextClass('home', $activeNav) ?> text-xs font-medium">Beranda</span>
         </a>
-        <a href="<?= $baseUrl ?>/pesanan/index.php" class="flex flex-col items-center group">
+        <a href="<?= $baseUrl ?>/pesanan/index.php" class="flex flex-col items-center group rounded-2xl px-3 py-2 transition-colors <?= navItemClass('pesanan', $activeNav) ?>">
           <img src="<?= $assetBase ?>/icons/shop.svg" class="w-7 h-7 mb-1 <?= navIconClass('pesanan', $activeNav) ?> group-hover:scale-110 transition-transform">
           <span class="<?= navTextClass('pesanan', $activeNav) ?> text-xs font-medium">Pesan</span>
         </a>
-        <a href="<?= $baseUrl ?>/favorit.php" class="flex flex-col items-center group">
+        <a href="<?= $baseUrl ?>/favorit.php" class="flex flex-col items-center group rounded-2xl px-3 py-2 transition-colors <?= navItemClass('favorit', $activeNav) ?>">
           <img src="<?= $assetBase ?>/icons/favorite.svg" class="w-7 h-7 mb-1 <?= navIconClass('favorit', $activeNav) ?> group-hover:scale-110 transition-transform">
           <span class="<?= navTextClass('favorit', $activeNav) ?> text-xs font-medium">Favorit</span>
         </a>
-        <a href="<?= $baseUrl ?>/transaksi/index.php" class="flex flex-col items-center group">
+        <a href="<?= $baseUrl ?>/transaksi/index.php" class="flex flex-col items-center group rounded-2xl px-3 py-2 transition-colors <?= navItemClass('transaksi', $activeNav) ?>">
           <img src="<?= $assetBase ?>/icons/wallet.svg" class="w-7 h-7 mb-1 <?= navIconClass('transaksi', $activeNav) ?> group-hover:scale-110 transition-transform">
           <span class="<?= navTextClass('transaksi', $activeNav) ?> text-xs font-medium leading-tight">Metode Transaksi</span>
         </a>
-        <a href="<?= $baseUrl ?>/histori.php" class="flex flex-col items-center group">
+        <a href="<?= $baseUrl ?>/histori.php" class="flex flex-col items-center group rounded-2xl px-3 py-2 transition-colors <?= navItemClass('histori', $activeNav) ?>">
           <img src="<?= $assetBase ?>/icons/history.svg" class="w-7 h-7 mb-1 <?= navIconClass('histori', $activeNav) ?> group-hover:scale-110 transition-transform">
           <span class="<?= navTextClass('histori', $activeNav) ?> text-xs font-medium">Histori</span>
         </a>
+        <?php if ($isAdmin): ?>
+          <div class="w-full h-[2px] bg-white/30 rounded-full"></div>
+          <div class="rounded-2xl bg-white/10 border border-white/15 p-4 flex flex-col gap-6">
+            <div class="text-white/80 text-[10px] tracking-[0.3em] uppercase">Admin</div>
+            <a href="<?= $baseUrl ?>/admin/dashboard.php" class="flex flex-col items-center group rounded-2xl px-3 py-2 transition-colors <?= navItemClass('admin_dashboard', $activeNav) ?>">
+                <img src="<?= $assetBase ?>/icons/chart.svg" class="w-7 h-7 mb-1 <?= navIconClass('admin_dashboard', $activeNav) ?> group-hover:scale-110 transition-transform">
+              <span class="<?= navTextClass('admin_dashboard', $activeNav) ?> text-xs font-medium">Admin Dashboard</span>
+            </a>
+            <a href="<?= $baseUrl ?>/admin/settings.php" class="flex flex-col items-center group rounded-2xl px-3 py-2 transition-colors <?= navItemClass('admin_settings', $activeNav) ?>">
+              <img src="<?= $assetBase ?>/icons/settings_active.svg" class="w-7 h-7 mb-1 <?= navIconClass('admin_settings', $activeNav) ?> group-hover:scale-110 transition-transform">
+              <span class="<?= navTextClass('admin_settings', $activeNav) ?> text-xs font-medium">Settings</span>
+            </a>
+          </div>
+        <?php endif; ?>
       </nav>
     </div>
   </div>
