@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php
 $assetBase = '../assets';
 $baseUrl = '..';
-include '../layout/header.php';
+include '../layout/head.php';
 ?>
 
 <div class="w-full min-h-screen bg-white flex flex-col relative overflow-hidden font-sans">
@@ -73,7 +73,7 @@ include '../layout/header.php';
             </div>
 
             <?php if ($error): ?>
-                <p class="text-white text-sm italic text-center mb-5">
+                <p class="text-white text-md italic text-center mb-5">
                     <?= htmlspecialchars($error) ?>
                 </p>
             <?php endif; ?>
@@ -98,7 +98,6 @@ include '../layout/header.php';
                         shadow-inner border-none">
                 </div>
 
-                <!-- PASSWORD -->
                 <div>
 
                     <label class="block text-white text-xl mb-2 font-light">
@@ -154,7 +153,7 @@ include '../layout/header.php';
                 </div>
             </form>
 
-            <p class="text-white text-center text-xs mt-10">
+            <p class="text-white text-center text-md mt-10">
 
                 Belum memiliki akun?
 
@@ -169,11 +168,12 @@ include '../layout/header.php';
             <div class="absolute -bottom-6 left-1/2 -translate-x-1/2">
 
                 <button
-                    onclick="toggleLogin()">
+                    onclick="toggleLogin()"
+                    class="bg-black/10 hover:bg-black/20 p-2 rounded-full backdrop-blur-sm transition-all">
 
                     <img
                         src="<?= $assetBase ?>/icons/arrow.svg"
-                        class="w-10 h-10  -rotate-90"
+                        class="w-8 h-8 -rotate-90"
                         alt="Close">
                 </button>
             </div>
@@ -196,11 +196,11 @@ include '../layout/header.php';
 
             <button
                 onclick="toggleLogin()"
-                class="absolute -bottom-6">
+                class="absolute -bottom-6 bg-black/10 hover:bg-black/20 p-2 rounded-full backdrop-blur-sm transition-all">
 
                 <img
                     src="<?= $assetBase ?>/icons/arrow.svg"
-                    class="w-10 h-10 rotate-90"
+                    class="w-8 h-8 rotate-90"
                     alt="Open">
             </button>
         </div>
