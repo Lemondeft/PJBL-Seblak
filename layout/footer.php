@@ -2,8 +2,8 @@
 	<div class="mx-auto w-full max-w-screen-xl">
 		<div class="grid grid-cols-2 gap-8 px-4 py-8 lg:py-10 md:grid-cols-4">
 			<div>
-				<h2 class="mb-6 text-sm font-bold uppercase tracking-widest text-white">Navigasi</h2>
-				<ul class="text-white/80 font-medium">
+				<h2 class="mb-6 text-xl font-bold uppercase tracking-widest text-white">Navigasi</h2>
+				<ul class="text-white/80 font-medium text-justify text-lg">
 					<li class="mb-4">
 						<a href="<?= $baseUrl ?>/index.php" class="hover:underline">Beranda</a>
 					</li>
@@ -19,48 +19,37 @@
 				</ul>
 			</div>
 			<div>
-				<h2 class="mb-6 text-sm font-bold uppercase tracking-widest text-white">Lokasi Kami</h2>
-				<ul class="text-white/80 font-medium">
-					<li class="mb-4 text-xs">
+				<h2 class="mb-6 text-xl font-bold uppercase tracking-widest text-white">Lokasi Kami</h2>
+				<ul class="text-white/80 font-medium text-justify text-lg">
+					<li class="mb-4">
 						<a href="https://maps.app.goo.gl/FUW451AwTCm39AsD6" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center gap-2">
 							<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
 							SMR 1 - Puspogiwang
 						</a>
 					</li>
-					<li class="mb-4 text-xs">
+					<li class="mb-4">
 						<a href="https://maps.app.goo.gl/oqVdN97bDuH83QdY9" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center gap-2">
 							<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
 							SMR 2 - Panjangan
 						</a>
 					</li>
-					<li class="mb-4 text-xs">
+					<li class="mb-4">
 						<a href="https://wa.me/6287843924380" target="_blank" rel="noopener noreferrer" class="hover:underline">WhatsApp Admin</a>
 					</li>
 				</ul>
 			</div>
 			<div>
-				<h2 class="mb-6 text-sm font-bold uppercase tracking-widest text-white">Jam Buka</h2>
-				<ul class="text-white/80 font-medium text-sm">
+				<h2 class="mb-6 text-xl font-bold uppercase tracking-widest text-white">Jam Buka</h2>
+				<ul class="text-white/80 font-medium text-justify text-lg">
 					<li class="mb-2">Senin - Jumat:</li>
 					<li class="mb-4 font-bold">10:00 - 21:00</li>
 					<li class="mb-2">Sabtu - Minggu:</li>
 					<li class="mb-4 font-bold">11:00 - 21:00</li>
 				</ul>
 			</div>
-			<div>
-				<h2 class="mb-6 text-sm font-bold uppercase tracking-widest text-white">Legal</h2>
-				<ul class="text-white/80 font-medium">
-					<li class="mb-4">
-						<a href="<?= $baseUrl ?>/index.php" class="hover:underline text-xs">Privacy Policy</a>
-					</li>
-					<li class="mb-4">
-						<a href="<?= $baseUrl ?>/index.php" class="hover:underline text-xs">Terms &amp; Conditions</a>
-					</li>
-				</ul>
-			</div>
 		</div>
 		<div class="px-4 py-6 bg-black/10 md:flex md:items-center md:justify-between">
-			<span class="text-sm text-white/70 sm:text-center">© 2026 <a href="<?= $baseUrl ?>/index.php" class="hover:underline font-bold">Seblak Mama Rizki™</a>. X PPLG 3</span>
+			<span class="text-sm text-white/70 sm:text-center">© 2026 <a href="<?= $baseUrl ?>/index.php" class="hover:underline font-bold">Seblak Mama Rizki™</a>. Made by <a href="#" class="hover:underline font-bold">Kelompok 2 X PPLG 3 SMKN 8 Semarang</a></span>
 			<div class="flex mt-4 sm:justify-center md:mt-0 space-x-5">
 				<a href="https://www.instagram.com/seblakmamarizki_/" target="_blank" rel="noopener noreferrer" class="text-white hover:scale-110 transition-transform">
 					<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>

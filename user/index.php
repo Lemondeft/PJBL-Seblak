@@ -125,5 +125,3 @@ include '../layout/head.php';
     </a>
 </div>
 </div>
-
-<?php include '../layout/footer.php'; ?>
