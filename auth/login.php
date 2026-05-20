@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (password_verify($pass_input, $stored_password) || hash_equals($stored_password, $pass_input)) {
                 $_SESSION['user'] = $data['username'];
+                $_SESSION['user_id'] = (int) ($data['id'] ?? 0);
 
                 header("Location: ../index.php");
                 exit();

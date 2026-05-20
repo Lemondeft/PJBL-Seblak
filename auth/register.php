@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($insert) {
                 $_SESSION['user'] = $username;
+                $_SESSION['user_id'] = (int) mysqli_insert_id($conn);
                 header("Location: ../index.php");
                 exit();
             }

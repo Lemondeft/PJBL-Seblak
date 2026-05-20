@@ -75,9 +75,12 @@ $result = mysqli_query($conn, $query);
                 <span class="icon-base icon-fav bg-white"></span>
             </button>
 
-            <button class="absolute bottom-0 left-0 w-full bg-[#ff8c42] py-1.5 flex justify-center items-center border-t border-gray-500 hover:bg-orange-500 transition-colors z-20 <?= $isOutOfStock ? 'bg-gray-400 pointer-events-none' : '' ?>">
+            <form method="POST" action="pesanan/add_paket.php" class="absolute bottom-0 left-0 w-full">
+              <input type="hidden" name="id_paket" value="<?= (int) $row['id'] ?>">
+              <button type="submit" class="w-full bg-[#ff8c42] py-1.5 flex justify-center items-center border-t border-gray-500 hover:bg-orange-500 transition-colors z-20 <?= $isOutOfStock ? 'bg-gray-400 pointer-events-none' : '' ?>">
                 <span class="icon-base icon-add bg-gray-800"></span>
-            </button>
+              </button>
+            </form>
           </div>
 
           <div class="mt-3 text-center px-1">
