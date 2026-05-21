@@ -290,5 +290,3 @@ function toggleLogin() {
 toggleLogin();
 <?php endif; ?>
 </script>
-
-<?php include '../layout/footer.php'; ?>

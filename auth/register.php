@@ -293,4 +293,3 @@ toggleRegister();
 <?php endif; ?>
 </script>
 
-<?php include '../layout/footer.php'; ?>

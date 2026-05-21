@@ -51,5 +51,3 @@ include '../layout/head.php';
         </form>
     </div>
 </div>
-
-<?php include '../layout/footer.php'; ?>

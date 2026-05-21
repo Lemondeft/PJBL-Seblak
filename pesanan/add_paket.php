@@ -35,7 +35,8 @@ if (!$user_id) {
 
 mysqli_query(
     $conn,
-    "INSERT INTO pesanan (id_customer, id_seblak_paket, id_seblak_prasmanan) VALUES ($user_id, $id_paket, NULL)"
+    "INSERT INTO pesanan (id_customer, id_seblak_paket, id_seblak_prasmanan, level_pedas, rasa)"
+    . " VALUES ($user_id, $id_paket, NULL, NULL, NULL)"
 );
 
 header('Location: index.php');

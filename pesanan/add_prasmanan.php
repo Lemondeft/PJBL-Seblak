@@ -32,9 +32,14 @@ if (!$user_id) {
     exit;
 }
 
+$level_pedas = isset($_POST['level_pedas']) ? (int) $_POST['level_pedas'] : 1;
+$rasa = trim($_POST['rasa'] ?? '');
+$rasa_escaped = mysqli_real_escape_string($conn, $rasa);
+
 $insert = mysqli_query(
     $conn,
-    "INSERT INTO pesanan (id_customer, id_seblak_paket, id_seblak_prasmanan) VALUES ($user_id, NULL, NULL)"
+    "INSERT INTO pesanan (id_customer, id_seblak_paket, id_seblak_prasmanan, level_pedas, rasa)"
+    . " VALUES ($user_id, NULL, NULL, $level_pedas, '$rasa_escaped')"
 );
 
 if (!$insert) {

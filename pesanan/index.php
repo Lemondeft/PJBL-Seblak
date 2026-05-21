@@ -36,7 +36,7 @@ $pesanan_result = null;
 if ($user_id) {
 	$pesanan_result = mysqli_query(
 		$conn,
-		"SELECT p.id, p.id_seblak_paket, sp.nama AS paket_nama, sp.harga AS paket_harga, sp.gambar AS paket_gambar"
+		"SELECT p.id, p.id_seblak_paket, p.level_pedas, p.rasa, sp.nama AS paket_nama, sp.harga AS paket_harga, sp.gambar AS paket_gambar"
 		. " FROM pesanan p"
 		. " LEFT JOIN seblak_paket sp ON p.id_seblak_paket = sp.id"
 		. " LEFT JOIN transaksi t ON t.id_pesanan = p.id"
@@ -135,6 +135,11 @@ include '../layout/header.php';
 											<span>x<?= (int) $detail['kuantitas'] ?></span>
 										</div>
 									<?php endforeach; ?>
+								</div>
+								<div class="mt-2 w-full text-[10px] text-orange-100/90">
+									<span>Level: <?= (int) ($pesanan['level_pedas'] ?? 1) ?></span>
+									<span class="mx-2">•</span>
+									<span>Rasa: <?= htmlspecialchars($pesanan['rasa'] ?? '-') ?></span>
 								</div>
 								<div class="w-full flex justify-end mt-2">
 									<span class="text-[10px] font-extrabold tracking-wide">IDR <?= number_format($prasmanan_total, 0, ',', '.') ?></span>
