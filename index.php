@@ -7,12 +7,40 @@ $baseUrl = '.';
 $activeNav = 'home';
 
 $search = $_GET['search'] ?? '';
+$detail_id = isset($_GET['detail']) ? (int) $_GET['detail'] : 0;
 $query = "SELECT * FROM seblak_paket";
 
 if ($search) {
     $query .= " WHERE nama LIKE '%" . mysqli_real_escape_string($conn, $search) . "%'";
 }
 $result = mysqli_query($conn, $query);
+
+$detail_paket = null;
+$detail_ulasan = [];
+if ($detail_id > 0) {
+  $detail_result = mysqli_query(
+    $conn,
+    "SELECT id, nama, deskripsi, harga, stok, gambar FROM seblak_paket WHERE id = $detail_id LIMIT 1"
+  );
+  $detail_paket = $detail_result ? mysqli_fetch_assoc($detail_result) : null;
+
+  if ($detail_paket) {
+    $ulasan_result = mysqli_query(
+      $conn,
+      "SELECT u.username, ul.rating, ul.komentar, ul.tanggal_ulasan"
+      . " FROM ulasan ul"
+      . " JOIN users u ON ul.id_customer = u.id"
+      . " WHERE ul.id_seblak_paket = $detail_id"
+      . " ORDER BY ul.tanggal_ulasan DESC"
+    );
+
+    if ($ulasan_result) {
+      while ($row = mysqli_fetch_assoc($ulasan_result)) {
+        $detail_ulasan[] = $row;
+      }
+    }
+  }
+}
 ?>
 
 <?php include 'layout/header.php'; ?>
@@ -60,6 +88,7 @@ $result = mysqli_query($conn, $query);
         <div class="group flex flex-col items-center <?= $isOutOfStock ? 'opacity-70' : '' ?>">
 
           <div class="relative w-full rounded-2xl border border-gray-500 overflow-hidden aspect-[4/3] bg-gray-200 shadow-sm group-hover:shadow-lg transition-all">
+            <a href="?detail=<?= (int) $row['id'] ?><?= $search ? '&search=' . urlencode($search) : '' ?>" class="absolute inset-0 z-10" aria-label="Lihat detail paket"></a>
             
             <?php if (!empty($row['gambar'])): ?>
               <img src="<?= $row['gambar'] ?>" class="w-full h-full object-cover">
@@ -75,7 +104,7 @@ $result = mysqli_query($conn, $query);
                 <span class="icon-base icon-fav bg-white"></span>
             </button>
 
-            <form method="POST" action="pesanan/add_paket.php" class="absolute bottom-0 left-0 w-full">
+            <form method="POST" action="pesanan/add_paket.php" class="absolute bottom-0 left-0 w-full z-20">
               <input type="hidden" name="id_paket" value="<?= (int) $row['id'] ?>">
               <button type="submit" class="w-full bg-[#ff8c42] py-1.5 flex justify-center items-center border-t border-gray-500 hover:bg-orange-500 transition-colors z-20 <?= $isOutOfStock ? 'bg-gray-400 pointer-events-none' : '' ?>">
                 <span class="icon-base icon-add bg-gray-800"></span>
@@ -101,5 +130,77 @@ $result = mysqli_query($conn, $query);
     </div>
 
   </div>
+
+<?php if ($detail_paket): ?>
+  <div class="fixed inset-0 z-50 flex items-center justify-center px-4 py-6">
+    <div class="w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-3xl shadow-2xl border border-gray-200">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+        <div>
+          <h2 class="text-lg font-black text-gray-800"><?= htmlspecialchars($detail_paket['nama']) ?></h2>
+          <p class="text-xs text-gray-500">Detail paket dan ulasan</p>
+        </div>
+        <a href="index.php<?= $search ? '?search=' . urlencode($search) : '' ?>" class="text-gray-600 text-2xl leading-none">&times;</a>
+      </div>
+
+      <div class="p-6 grid gap-6 lg:grid-cols-[1.2fr_1fr]">
+        <div class="rounded-3xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+          <div class="h-56 bg-gray-200">
+            <?php if (!empty($detail_paket['gambar'])): ?>
+              <img src="<?= htmlspecialchars($detail_paket['gambar']) ?>" class="w-full h-full object-cover" alt="<?= htmlspecialchars($detail_paket['nama']) ?>">
+            <?php else: ?>
+              <div class="w-full h-full flex items-center justify-center text-gray-400 text-xs">No Image</div>
+            <?php endif; ?>
+          </div>
+          <div class="px-5 py-4">
+            <div class="flex items-start justify-between">
+              <div>
+                <div class="text-xs text-gray-500">Tersedia: <?= (int) $detail_paket['stok'] ?></div>
+                <div class="text-xs text-gray-500 mt-1">Deskripsi</div>
+              </div>
+              <div class="text-sm font-semibold text-orange-600">IDR <?= number_format((int) $detail_paket['harga'], 0, ',', '.') ?></div>
+            </div>
+            <p class="text-sm text-gray-600 mt-3"><?= htmlspecialchars($detail_paket['deskripsi'] ?? '-') ?></p>
+            <form method="POST" action="pesanan/add_paket.php" class="mt-4">
+              <input type="hidden" name="id_paket" value="<?= (int) $detail_paket['id'] ?>">
+              <button type="submit" class="bg-orange-500 text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm">Tambah</button>
+            </form>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-gray-700">Ulasan</h3>
+            <span class="text-xs text-gray-500">(<?= count($detail_ulasan) ?> ulasan)</span>
+          </div>
+          <div class="mt-4 space-y-3">
+            <?php if (empty($detail_ulasan)): ?>
+              <div class="bg-gray-50 rounded-2xl border border-gray-200 p-4 text-center text-sm text-gray-500">
+                Belum ada ulasan untuk paket ini.
+              </div>
+            <?php else: ?>
+              <?php foreach ($detail_ulasan as $ulasan): ?>
+                <div class="bg-white rounded-2xl border border-gray-200 p-4 shadow-sm">
+                  <div class="flex items-center justify-between">
+                    <div class="text-xs font-semibold text-gray-800"><?= htmlspecialchars($ulasan['username']) ?></div>
+                    <div class="text-[10px] text-gray-400">
+                      <?= date('d/m/Y', strtotime($ulasan['tanggal_ulasan'])) ?>
+                    </div>
+                  </div>
+                  <div class="mt-2 text-orange-500 text-xs">
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                      <?= $i <= (int) $ulasan['rating'] ? '★' : '☆' ?>
+                    <?php endfor; ?>
+                  </div>
+                  <p class="text-sm text-gray-600 mt-2"><?= htmlspecialchars($ulasan['komentar'] ?? '') ?></p>
+                </div>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fixed inset-0 bg-black/30 z-40 backdrop-blur-sm"></div>
+<?php endif; ?>
 
 <?php include 'layout/footer.php'; ?>

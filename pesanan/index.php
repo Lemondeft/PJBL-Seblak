@@ -34,14 +34,15 @@ $paket_result = mysqli_query(
 
 $pesanan_result = null;
 if ($user_id) {
-    $pesanan_result = mysqli_query(
-        $conn,
-        "SELECT p.id, p.id_seblak_paket, sp.nama AS paket_nama, sp.harga AS paket_harga, sp.gambar AS paket_gambar"
-        . " FROM pesanan p"
-        . " LEFT JOIN seblak_paket sp ON p.id_seblak_paket = sp.id"
-		. " WHERE p.id_customer = $user_id"
-        . " ORDER BY p.id DESC"
-    );
+	$pesanan_result = mysqli_query(
+		$conn,
+		"SELECT p.id, p.id_seblak_paket, sp.nama AS paket_nama, sp.harga AS paket_harga, sp.gambar AS paket_gambar"
+		. " FROM pesanan p"
+		. " LEFT JOIN seblak_paket sp ON p.id_seblak_paket = sp.id"
+		. " LEFT JOIN transaksi t ON t.id_pesanan = p.id"
+		. " WHERE p.id_customer = $user_id AND t.id IS NULL"
+		. " ORDER BY p.id DESC"
+	);
 }
 
 include '../layout/header.php';
@@ -146,9 +147,9 @@ include '../layout/header.php';
 		<?php endif; ?>
 
 		<div class="w-full mt-6">
-			<button type="button" class="w-full bg-orange-500 text-white font-extrabold text-sm py-2.5 rounded-2xl shadow-md hover:bg-orange-600 active:scale-[0.99] transition-all tracking-wider">
+			<a href="../transaksi/confirm.php" class="block w-full bg-orange-500 text-white font-extrabold text-sm py-2.5 rounded-2xl text-center shadow-md hover:bg-orange-600 active:scale-[0.99] transition-all tracking-wider">
 				Pesan
-			</button>
+			</a>
 		</div>
 	</div>
 
