@@ -28,7 +28,7 @@ $subtotal = 0;
 if ($user_id) {
     $pesanan_result = mysqli_query(
         $conn,
-        "SELECT p.id, p.id_seblak_paket, sp.nama AS paket_nama, sp.harga AS paket_harga, sp.gambar AS paket_gambar"
+        "SELECT p.id, p.id_seblak_paket, p.level_pedas, p.rasa, sp.nama AS paket_nama, sp.harga AS paket_harga, sp.gambar AS paket_gambar"
         . " FROM pesanan p"
         . " LEFT JOIN seblak_paket sp ON p.id_seblak_paket = sp.id"
         . " LEFT JOIN transaksi t ON t.id_pesanan = p.id"
@@ -78,6 +78,8 @@ if ($user_id) {
                 'is_paket' => $is_paket,
                 'nama' => $is_paket ? ($pesanan['paket_nama'] ?? 'Paket Seblak') : 'Seblak Prasmanan',
                 'gambar' => $pesanan['paket_gambar'] ?? '',
+                'level_pedas' => $pesanan['level_pedas'] ?? null,
+                'rasa' => $pesanan['rasa'] ?? null,
                 'total' => $item_total,
                 'details' => $details
             ];
@@ -123,7 +125,19 @@ include '../layout/head.php';
                                 <span class="text-xs font-bold">IDR <?= number_format($order['total'], 0, ',', '.') ?></span>
                             </div>
                             <?php if (!$order['is_paket']): ?>
-                                <div class="text-xs text-orange-100 mt-1">Info Selengkapnya</div>
+                                <div class="mt-2 space-y-1 text-[11px] text-orange-100/90">
+                                    <div class="flex items-center gap-2">
+                                        <span>Level: <?= (int) ($order['level_pedas'] ?? 1) ?></span>
+                                        <span class="text-orange-200">•</span>
+                                        <span>Rasa: <?= htmlspecialchars($order['rasa'] ?? '-') ?></span>
+                                    </div>
+                                    <?php foreach ($order['details'] as $detail): ?>
+                                        <div class="flex items-center justify-between">
+                                            <span><?= htmlspecialchars($detail['label']) ?></span>
+                                            <span>x<?= (int) $detail['qty'] ?></span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
                             <?php endif; ?>
                         </div>
                         <form method="POST" action="../pesanan/delete_pesanan.php">
