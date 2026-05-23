@@ -176,7 +176,7 @@ include '../layout/head.php';
 
                     <img
                         src="<?= $assetBase ?>/icons/arrow.svg"
-                        class="w-8 h-8 -rotate-90"
+                        class="w-8 h-8 rotate-90"
                         alt="Close">
                 </button>
             </div>
@@ -203,7 +203,7 @@ include '../layout/head.php';
 
                 <img
                     src="<?= $assetBase ?>/icons/arrow.svg"
-                    class="w-8 h-8 rotate-90"
+                    class="w-8 h-8 -rotate-90"
                     alt="Open">
             </button>
         </div>
