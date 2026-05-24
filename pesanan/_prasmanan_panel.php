@@ -19,7 +19,7 @@
                 <div class="flex items-center gap-3">
                     <div class="w-12 h-12 bg-white/20 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden border border-white/10">
                         <?php if(!empty($t['gambar'])): ?>
-                            <img src="../assets/images/<?= $t['gambar'] ?>" alt="<?= htmlspecialchars($t['nama']) ?>" class="w-full h-full object-cover">
+                            <img src="../assets/uploads/topping/<?= $t['gambar'] ?>" alt="<?= htmlspecialchars($t['nama']) ?>" class="w-full h-full object-cover">
                         <?php else: ?>
                             <span class="icon-base icon-shop text-white/60"></span>
                         <?php endif; ?>

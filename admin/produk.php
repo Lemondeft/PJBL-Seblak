@@ -1,6 +1,13 @@
 <?php
 require_once '../auth/check.php';
 
+date_default_timezone_set('Asia/Jakarta');
+
+if (($_SESSION['role'] ?? '') !== 'admin') {
+    header('Location: ../index.php');
+    exit;
+}
+
 $assetBase = '../assets';
 $baseUrl = '..';
 include '../layout/header.php';

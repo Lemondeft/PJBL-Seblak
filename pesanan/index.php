@@ -84,6 +84,10 @@ include '../layout/header.php';
 					<?php
 						$pesanan_id = (int) $pesanan['id'];
 						$is_paket = !empty($pesanan['id_seblak_paket']);
+							$paket_gambar = $pesanan['paket_gambar'] ?? '';
+							if (!empty($paket_gambar) && strpos($paket_gambar, 'assets/') === 0) {
+								$paket_gambar = '../' . $paket_gambar;
+							}
 						$prasmanan_items = [];
 						$prasmanan_total = 0;
 						if (!$is_paket) {
@@ -104,8 +108,8 @@ include '../layout/header.php';
 					?>
 					<div class="bg-orange-500 border border-orange-600/40 rounded-2xl p-3 flex items-start justify-between shadow-sm text-white">
 						<div class="w-20 h-14 bg-white/20 rounded-xl border border-white/30 flex-shrink-0 flex items-center justify-center overflow-hidden">
-							<?php if ($is_paket && !empty($pesanan['paket_gambar'])): ?>
-								<img src="<?= htmlspecialchars($pesanan['paket_gambar']) ?>" class="w-full h-full object-cover" alt="<?= htmlspecialchars($pesanan['paket_nama']) ?>">
+							<?php if ($is_paket && !empty($paket_gambar)): ?>
+								<img src="<?= htmlspecialchars($paket_gambar) ?>" class="w-full h-full object-cover" alt="<?= htmlspecialchars($pesanan['paket_nama']) ?>">
 							<?php else: ?>
 								<span class="icon-base icon-shop text-white/80"></span>
 							<?php endif; ?>
@@ -175,10 +179,16 @@ include '../layout/header.php';
 			<div class="space-y-3">
 				<?php if ($paket_result): ?>
 					<?php while ($paket = mysqli_fetch_assoc($paket_result)): ?>
+						<?php
+							$paket_gambar = $paket['gambar'] ?? '';
+							if (!empty($paket_gambar) && strpos($paket_gambar, 'assets/') === 0) {
+								$paket_gambar = '../' . $paket_gambar;
+							}
+						?>
 						<div class="bg-white/10 backdrop-blur-sm p-2.5 rounded-xl flex items-center gap-3 border border-white/20 shadow-sm">
 							<div class="w-14 h-12 bg-white/20 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden border border-white/10">
-								<?php if (!empty($paket['gambar'])): ?>
-									<img src="<?= htmlspecialchars($paket['gambar']) ?>" class="w-full h-full object-cover" alt="<?= htmlspecialchars($paket['nama']) ?>">
+								<?php if (!empty($paket_gambar)): ?>
+									<img src="<?= htmlspecialchars($paket_gambar) ?>" class="w-full h-full object-cover" alt="<?= htmlspecialchars($paket['nama']) ?>">
 								<?php else: ?>
 									<span class="icon-base icon-shop text-white/80"></span>
 								<?php endif; ?>

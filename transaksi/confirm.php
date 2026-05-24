@@ -73,11 +73,16 @@ if ($user_id) {
 
             $subtotal += $item_total;
 
+            $gambar = $pesanan['paket_gambar'] ?? '';
+            if (!empty($gambar) && strpos($gambar, 'assets/') === 0) {
+                $gambar = '../' . $gambar;
+            }
+
             $orders[] = [
                 'id' => $pesanan_id,
                 'is_paket' => $is_paket,
                 'nama' => $is_paket ? ($pesanan['paket_nama'] ?? 'Paket Seblak') : 'Seblak Prasmanan',
-                'gambar' => $pesanan['paket_gambar'] ?? '',
+                'gambar' => $gambar,
                 'level_pedas' => $pesanan['level_pedas'] ?? null,
                 'rasa' => $pesanan['rasa'] ?? null,
                 'total' => $item_total,

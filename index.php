@@ -41,6 +41,37 @@ if ($detail_id > 0) {
     }
   }
 }
+
+$jenis_gambar = '';
+$jenis_result = mysqli_query(
+  $conn,
+  "SELECT gambar FROM seblak_paket WHERE gambar IS NOT NULL AND gambar <> '' ORDER BY RAND() LIMIT 1"
+);
+if ($jenis_result && ($jenis_row = mysqli_fetch_assoc($jenis_result))) {
+  $jenis_gambar = $jenis_row['gambar'] ?? '';
+}
+
+$carousel_images = [];
+$carousel_result = mysqli_query(
+  $conn,
+  "SELECT gambar FROM carousel WHERE aktif = 1 ORDER BY urutan ASC, id ASC LIMIT 3"
+);
+if ($carousel_result) {
+  while ($row = mysqli_fetch_assoc($carousel_result)) {
+    $img = trim($row['gambar'] ?? '');
+    if ($img !== '') {
+      $carousel_images[] = $img;
+    }
+  }
+}
+
+if (empty($carousel_images)) {
+  $carousel_images = [
+    'https://images.unsplash.com/photo-1626804475297-41609ea004eb?w=800&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1548943487-a2e4e43b4850?w=800&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=800&h=400&fit=crop'
+  ];
+}
 ?>
 
 <?php include 'layout/header.php'; ?>
@@ -51,15 +82,151 @@ if ($detail_id > 0) {
 
     <div class="mb-6">
       <h2 class="text-lg text-gray-800 mb-3 tracking-wide font-semibold">TERKINI</h2>
-      <div id="carousel-placeholder" class="relative w-full h-48 sm:h-56 lg:h-72 rounded-2xl overflow-hidden shadow-lg border border-gray-300">
-        <img src="https://images.unsplash.com/photo-1626804475297-41609ea004eb?w=600&h=300&fit=crop" class="w-full h-full object-cover">
+      <div id="hero-carousel" class="relative w-full h-48 sm:h-56 lg:h-72 rounded-2xl overflow-hidden shadow-lg border border-gray-300 bg-gradient-to-r from-[#ed4a4a] to-[#f58231]" data-carousel>
+        <div class="absolute inset-0 flex transition-transform duration-500 ease-out z-0" data-track>
+          <?php foreach ($carousel_images as $i => $img): ?>
+            <?php
+              $src = $img;
+              if (!preg_match('~^https?://~', $src) && strpos($src, 'assets/') !== 0) {
+                $src = 'assets/uploads/carousel/' . $src;
+              }
+            ?>
+            <img src="<?= htmlspecialchars($src) ?>" class="w-full h-full object-contain flex-shrink-0 rounded-[1px]" alt="Menu <?= $i + 1 ?>">
+          <?php endforeach; ?>
+        </div>
+        <?php if (count($carousel_images) > 1): ?>
+          <button type="button" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-700 w-8 h-8 rounded-full shadow flex items-center justify-center z-20" data-prev aria-label="Sebelumnya">
+            <span class="icon-base icon-arrow bg-gray-700"></span>
+          </button>
+          <button type="button" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-700 w-8 h-8 rounded-full shadow flex items-center justify-center z-20" data-next aria-label="Berikutnya">
+            <span class="icon-base icon-arrow bg-gray-700 rotate-180"></span>
+          </button>
+
+          <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+            <?php foreach ($carousel_images as $i => $_): ?>
+              <button type="button" class="w-2.5 h-2.5 rounded-full <?= $i === 0 ? 'bg-white/70' : 'bg-white/40' ?>" data-dot="<?= $i ?>" aria-label="Gambar <?= $i + 1 ?>"></button>
+            <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
       </div>
     </div>
+
+    <script>
+      (() => {
+        const carousel = document.querySelector('[data-carousel]');
+        if (!carousel) {
+          return;
+        }
+
+        const track = carousel.querySelector('[data-track]');
+        const slides = Array.from(track.children);
+        const prevBtn = carousel.querySelector('[data-prev]');
+        const nextBtn = carousel.querySelector('[data-next]');
+        const dots = Array.from(carousel.querySelectorAll('[data-dot]'));
+
+        let index = 0;
+        let timerId = null;
+        let startX = null;
+        let pointerDown = false;
+
+        const setActive = (newIndex) => {
+          const total = slides.length;
+          index = (newIndex + total) % total;
+          track.style.transform = `translateX(-${index * 100}%)`;
+
+          dots.forEach((dot, i) => {
+            dot.classList.toggle('bg-white/70', i === index);
+            dot.classList.toggle('bg-white/40', i !== index);
+          });
+        };
+
+        const resetTimer = () => {
+          if (timerId) {
+            clearInterval(timerId);
+          }
+          timerId = setInterval(() => {
+            setActive(index + 1);
+          }, 3000);
+        };
+
+        const handleSwipe = (deltaX) => {
+          if (Math.abs(deltaX) < 40) {
+            return;
+          }
+          if (deltaX > 0) {
+            setActive(index - 1);
+          } else {
+            setActive(index + 1);
+          }
+          resetTimer();
+        };
+
+        if (prevBtn && nextBtn && slides.length > 1) {
+          prevBtn.addEventListener('click', () => {
+            setActive(index - 1);
+            resetTimer();
+          });
+
+          nextBtn.addEventListener('click', () => {
+            setActive(index + 1);
+            resetTimer();
+          });
+        }
+
+        dots.forEach((dot, i) => {
+          dot.addEventListener('click', () => {
+            setActive(i);
+            resetTimer();
+          });
+        });
+
+        carousel.addEventListener('touchstart', (event) => {
+          startX = event.touches[0].clientX;
+        }, { passive: true });
+
+        carousel.addEventListener('touchend', (event) => {
+          if (startX === null) {
+            return;
+          }
+          const endX = event.changedTouches[0].clientX;
+          handleSwipe(endX - startX);
+          startX = null;
+        });
+
+        carousel.addEventListener('pointerdown', (event) => {
+          pointerDown = true;
+          startX = event.clientX;
+        });
+
+        carousel.addEventListener('pointerup', (event) => {
+          if (!pointerDown || startX === null) {
+            return;
+          }
+          handleSwipe(event.clientX - startX);
+          pointerDown = false;
+          startX = null;
+        });
+
+        carousel.addEventListener('pointerleave', () => {
+          pointerDown = false;
+          startX = null;
+        });
+
+        setActive(0);
+        if (slides.length > 1) {
+          resetTimer();
+        }
+      })();
+    </script>
 
     <div class="mb-6">
       <h2 class="text-lg text-gray-800 mb-3 tracking-wide font-semibold">JENIS MENU</h2>
       <div class="border border-gray-400 rounded-xl p-1 flex items-center gap-3 bg-white w-full max-w-xs hover:shadow-md transition-shadow cursor-pointer">
-        <img src="https://images.unsplash.com/photo-1548943487-a2e4e43b4850?w=100&h=100&fit=crop" class="w-14 h-14 rounded-lg object-cover">
+        <?php if (!empty($jenis_gambar)): ?>
+          <img src="<?= htmlspecialchars($jenis_gambar) ?>" class="w-14 h-14 rounded-lg object-cover" alt="Jenis menu">
+        <?php else: ?>
+          <img src="https://images.unsplash.com/photo-1548943487-a2e4e43b4850?w=100&h=100&fit=crop" class="w-14 h-14 rounded-lg object-cover" alt="Jenis menu">
+        <?php endif; ?>
         <span class="text-gray-900 tracking-wider text-sm font-medium uppercase">SEBLAK</span>
       </div>
     </div>

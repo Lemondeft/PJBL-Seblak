@@ -15,7 +15,7 @@ include '../layout/head.php';
 
         <h1 class="text-2xl font-black text-gray-800">Selamat Anda Telah Bertransaksi</h1>
 
-        <div class="mt-6 w-44 h-44 rounded-full bg-orange-500/10 flex items-center justify-center">
+        <div class="mt-6 w-full h-44 flex items-center justify-center bg-center bg-contain bg-no-repeat" style="background-image: url('<?= $assetBase ?>/icons/horaay.png');">
             <img src="<?= $assetBase ?>/icons/logo.png" class="w-32 h-32 object-contain" alt="Seblak Logo">
         </div>
 
